@@ -1,1 +1,1 @@
-web: nodemon index.js
+web: rpm run start
