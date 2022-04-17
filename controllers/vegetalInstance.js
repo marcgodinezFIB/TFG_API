@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const Vegetal = require('../models/Vegetal')
+const Vegetal = require('../models/vegetal')
 const User = require('../models/user')
 const VegetalInstance = require('../models/vegetalInstance')
 
