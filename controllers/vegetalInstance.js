@@ -3,7 +3,7 @@
 const mongoose = require('mongoose')
 const Vegetal = require('../models/vegetal')
 const User = require('../models/user')
-const VegetalInstance = require('../models/vegetalInstance')
+const VegetalInstance = require('../models/vegetalInstance') 
 
 function addVegetalInstance(req, res) {
     User.findById(req.user, (err, user) => {
