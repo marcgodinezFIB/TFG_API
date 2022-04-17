@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const User = require('../models/user')
-const Vegetal = require('../models/Vegetal')
+const Vegetal = require('../models/vegetal')
 
 function addVegetal(req, res) {
     User.findById(req.user, (err, user) => {
