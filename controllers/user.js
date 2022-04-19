@@ -11,13 +11,15 @@ function signUp(req, res) {
         email: req.body.email,
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password, 10),
-        role: "EMPRESA",
+        role: "EMPRESA"
     })
     user.save((err) => {
         if (err){
-         return res.status(500).json({
-            message: `Error al crear el usuario ${err}`
-        })
+            if(err.code == "11000")
+                return res.status(500).json({
+                    message: `Ya existe usuario`
+                })
+
     }
         return res.status(200).json({ token: service.createToken(user) })
     })
@@ -76,24 +78,18 @@ function signInAdmin(req, res) {
 }
 
 function showUser(req,res){
-    let token = req.headers.token; //token
-    jwt.verify(token, 'secretkey', (err, decoded) => {
-      if (err) return res.status(401).json({
-        title: 'unauthorized'
-      })
-      //token is valid
-      User.findOne({ _id: decoded.userId }, (err, user) => {
-        if (err) return res.status(200).send(err)
+    User.findById(req.user, (err, user) => {
+        if (err) return res.status(500).send(err)
         return res.status(200).json({
           title: 'user grabbed',
           user: {
             email: user.email,
-            username: user.username
+            username: user.username,
+            role: user.role,
+            signupdate: user.signupDate
           }
         })
       })
-  
-    })
   }
 
 module.exports = {

@@ -20,9 +20,9 @@ const TransportInstanceCtrl = require('../controllers/transportInstance');
 
 const auth = require('../middlewares/auth');
 
-api.post('/signup', UserCtrl.signUp); 
+api.post('/signup', UserCtrl.signUp);
 api.post('/login', UserCtrl.signIn);
-api.get('/profile', UserCtrl.showUser);
+api.get('/profile', auth, UserCtrl.showUser);
 api.post('/signinadmin', UserCtrl.signInAdmin);
 
 api.post('/addproduct', auth, ProductCtrl.addProduct);
