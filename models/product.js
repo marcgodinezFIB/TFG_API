@@ -11,11 +11,10 @@ const ProductSchema = new Schema({
     type: { type: String},
     water: { type: Number},
     electricity:{ type: Number},
-    animal: { type: Array},
-    vegetal: { type: Array},
+    foods: {type : Array},
     transport: { type: Array},
     recipient: { type: Array},
-
+    CO2Food: {type : Number},
     CO2Procurement: {type : Number},
     CO2Water: {type: Number},
     CO2Electricity: {type: Number},
