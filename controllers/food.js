@@ -50,7 +50,6 @@ function getAllFoods(req, res) {
 
 }
 function getAllFoodsByTypeProd(req, res) {
-    console.log(req.params)
     Food.find({foodType: req.params.typeFood}, (err, foods) => {
         if (err) return res.status(500).send({ message: err })
         if (!foods) return res.status(404).send({ message: "no existen animales" })

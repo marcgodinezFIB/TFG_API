@@ -36,10 +36,11 @@ function addProduct(req, res) {
                 name: req.body.name,
                 description: req.body.description,
                 origin: req.body.origin,
+                // avatar: req.body.avatar,
                 //Procurement
                 water: req.body.water, //valor fijo
                 electricity: req.body.electricity, //valor fijo
-                food:req.body.foods,
+                foods:req.body.foods,
                 
                 //Transport
                 transport: req.body.transports,
