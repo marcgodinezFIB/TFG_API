@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const AnimalInstance = require('../models/animalInstance')
+const AnimalInstance = require('../models/AnimalInstance')
 const User = require('../models/user')
 
 function addAnimalInstance(req, res) {

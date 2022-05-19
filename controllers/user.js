@@ -21,29 +21,32 @@ function signUp(req, res) {
                 })
 
     }
-        return res.status(200).json({ token: service.createToken(user) })
+        return res.status(200).json({ 
+            token: service.createToken(user), 
+            email: user.email,
+            username: user.username,
+            role: user.role })
     })
 }
 
-function signIn(req, res) {
-
+function signIn(req, res) { 
     User.findOne({ email: req.body.email }, (err, user) => {
         if (err){ 
-            return res.status(500).json({ title: 'Server error' , message: err })}
+            return res.status(500).json({ message: err })}
         if (!user){
-            return res.status(404).json({ title: 'No existe usuario', message: "No existe usuario" })
+            return res.status(404).json({ message: "No existe usuario" })
         } 
         if (!bcrypt.compareSync(req.body.password, user.password)) {
             return res.status(400).json({
-                title:"Usuario o contraseña incorrectos", message:"Usuario o contraseña incorrectos"
+                message:"Usuario o contraseña incorrectos"
             });
         }        
         req.user = user
         return res.status(200).json({
-            title: "Te has logueado correctamente",
             message: "Te has logueado correctamente",
             token: service.createToken(user),
-            displayName: user.displayName,
+            id: user._id,
+            email: user.email,
             role: user.role
         })
     });
@@ -92,9 +95,15 @@ function showUser(req,res){
       })
   }
 
+  function getUser(user){
+    User.findById(user, (err, user) => {
+        return user;
+      })
+  }
 module.exports = {
     signUp,
     signIn,
     signInAdmin,
-    showUser
+    showUser,
+    getUser,
 }

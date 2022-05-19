@@ -21,6 +21,21 @@ const RecipientInstanceCtrl = require('../controllers/recipientInstance');
 const TransportCtrl = require('../controllers/transport');
 const TransportInstanceCtrl = require('../controllers/transportInstance');
 
+const FavoriteProductCtrl = require('../controllers/favoriteproduct');
+const RecentProductCtrl = require('../controllers/recentproduct');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, '../api/uploads/');
+    },
+    filename: function(req, file, cb){
+        cb(null,file.originalname);
+    }
+});
+
+const upload = multer({storage: storage});
+
 const auth = require('../middlewares/auth');
 
 api.post('/signup', UserCtrl.signUp);
@@ -29,9 +44,21 @@ api.get('/profile', auth, UserCtrl.showUser);
 api.post('/signinadmin', UserCtrl.signInAdmin);
 
 api.post('/addproduct', auth, ProductCtrl.addProduct);
+api.post('/editproduct/:id', auth, ProductCtrl.editProduct);
+
 api.get('/getallproducts', ProductCtrl.getAllProducts);
 api.get('/getproduct/:id', ProductCtrl.getProduct);
 api.delete('/removeproduct/:id', auth, ProductCtrl.removeProduct);
+api.get('/getallproducts/:prod', ProductCtrl.getAllProductsByProdType);
+api.post('/attachimage/:prod', auth, upload.single("image"), ProductCtrl.attachImage);
+
+api.post('/saveimage', auth, upload.single("image"), function (req,res){
+    console.log(req.file);
+    return res.status(200).send({message : "Imagen subida"})
+});
+
+api.get('/getimage/:prod', auth, ProductCtrl.getImage);
+
 
 api.post('/addtypeprod', auth, TypeProdCtrl.addTypeProd);
 api.get('/getalltypeprod', TypeProdCtrl.getAllTypeProd);
@@ -65,6 +92,18 @@ api.get('/getAnimalInstance/:id', AnimalInstanceCtrl.getAnimalInstance);
 api.delete('/removeAnimalInstance/:id', auth, AnimalInstanceCtrl.removeAnimalInstance);
 api.get('/getallAnimalsInstances', AnimalInstanceCtrl.getAllAnimalInstances);
 
+api.post('/addFavoriteProduct/:prod', auth, FavoriteProductCtrl.addFavoriteProduct);
+api.get('/getallFavoriteProduct', FavoriteProductCtrl.getAllFavoriteProducts);
+api.get('/getFavoriteProduct/:user', FavoriteProductCtrl.getFavoriteProduct);
+api.delete('/removeFavoriteProduct/:prod/', auth, FavoriteProductCtrl.removeFavoriteProduct);
+api.get('/getallFavoriteProducts/:user', FavoriteProductCtrl.getAllFavoriteProducts);
+
+api.post('/addRecentProduct/', auth, RecentProductCtrl.addRecentProduct);
+api.get('/getallRecentProduct', RecentProductCtrl.getAllRecentProducts);
+api.get('/getRecentProduct/:user', RecentProductCtrl.getRecentProduct);
+api.delete('/removeRecentProduct/:prod/', auth, RecentProductCtrl.removeRecentProduct);
+api.get('/getallRecentProducts/:user', RecentProductCtrl.getAllRecentProducts);
+
 api.post('/addVegetal', auth, VegetalCtrl.addVegetal);
 api.get('/getallVegetal', VegetalCtrl.getAllVegetals);
 api.get('/getVegetal/:id', VegetalCtrl.getVegetal);
@@ -90,6 +129,15 @@ api.post('/addtransport', auth, TransportCtrl.addTransport);
 api.get('/getAllTransports', TransportCtrl.getAllTransports);
 api.get('/gettransport/:id', TransportCtrl.getTransport);
 api.delete('/removetransport/:id', auth, TransportCtrl.removeTransport);
+api.get('/getAllCountries', TransportCtrl.getAllCountries);
+api.get('/getAllStatesByCountry/:country', TransportCtrl.getAllStatesByCountry);
+api.get('/getAllCitiesByState/:country/:state', TransportCtrl.getAllCitiesByState);
+
+api.get('/getcountryByCode/:code', TransportCtrl.getcountryByCode);
+api.get('/getStateByISO/:code/:iso', TransportCtrl.getStateByISO);
+api.get('/getCityByName/:code/:iso/:name', TransportCtrl.getCityByName);
+
+
 
 api.post('/addtransportInstance', auth, TransportInstanceCtrl.addTransportInstance);
 api.get('/getTransportInstance/:id', TransportInstanceCtrl.getTransportInstance);

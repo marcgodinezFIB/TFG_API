@@ -1,9 +1,9 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const Vegetal = require('../models/vegetal')
+const Vegetal = require('../models/Vegetal')
 const User = require('../models/user')
-const VegetalInstance = require('../models/vegetalInstance') 
+const VegetalInstance = require('../models/VegetalInstance')
 
 function addVegetalInstance(req, res) {
     User.findById(req.user, (err, user) => {
